@@ -1,6 +1,6 @@
 package io.t11.clientConnectivity.service;
 
-import io.t11.clientConnectivity.Portfolio;
+import io.t11.clientConnectivity.model.Portfolio;
 import io.t11.clientConnectivity.dao.PortfolioRepository;
 import io.t11.clientConnectivity.dto.PortfolioDto;
 import org.springframework.beans.factory.annotation.Autowired;

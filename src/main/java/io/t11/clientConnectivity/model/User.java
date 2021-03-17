@@ -1,9 +1,10 @@
-package io.t11.clientConnectivity;
+package io.t11.clientConnectivity.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class User {
@@ -11,10 +12,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  Long id;
+
     private String firstName;
+
     private String lastName;
+
     private String password;
+
     private String emailAddress;
+
     private String DOB;
 
 
@@ -60,4 +66,28 @@ public class User {
         return DOB;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(emailAddress, user.emailAddress) && Objects.equals(DOB, user.DOB);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, password, emailAddress, DOB);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", DOB='" + DOB + '\'' +
+                '}';
+    }
 }
