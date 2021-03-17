@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService implements IUserService{
 
     @Autowired
     UserRepository userRepository;
@@ -23,7 +23,7 @@ public class UserService {
        User user = new User();
        user.setFirstName(userDto.getFirstName());
        user.setLastName(userDto.getLastName());
-       user.setEmailAddress(userDto.getEmail());
+       user.setEmail(userDto.getEmail());
        user.setPassword(userDto.getPassword());
        user.setDOB(userDto.getDOB());
        return userRepository.save(user);

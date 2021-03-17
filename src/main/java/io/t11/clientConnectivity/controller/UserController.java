@@ -14,11 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    public IUserService userService;
+    private IUserService userService;
+
+    public UserController(IUserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     public User registerNewUser(UserDto userDto){
-        //Anotate @RequestBody UserDto userDto
+        //Annotate @RequestBody UserDto userDto
         return userService.createNewUser(userDto);  // so You Know something must be done here
     }
 

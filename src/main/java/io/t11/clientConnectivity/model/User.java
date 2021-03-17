@@ -19,7 +19,7 @@ public class User {
 
     private String password;
 
-    private String emailAddress;
+    private String email;
 
     private String DOB;
 
@@ -37,8 +37,8 @@ public class User {
         this.password = password;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setDOB(String DOB) {
@@ -58,8 +58,8 @@ public class User {
         return password;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmail() {
+        return email;
     }
 
     public String getDOB() {
@@ -71,12 +71,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(emailAddress, user.emailAddress) && Objects.equals(DOB, user.DOB);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(DOB, user.DOB);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, password, emailAddress, DOB);
+        return Objects.hash(id, firstName, lastName, password, email, DOB);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
+                ", emailAddress='" + email + '\'' +
                 ", DOB='" + DOB + '\'' +
                 '}';
     }
