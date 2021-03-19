@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController("portfolio")
 public class PortfolioController {
 
     @Autowired
     public PortfolioService portfolioService;
 
-    @PostMapping()// You have to pass a request to this mapping
-    public Portfolio createNemPortfolio(@RequestBody PortfolioDto portfolioDto) {
+    @PostMapping("create")// You have to pass a request to this mapping
+    public Portfolio createNewPortfolio(@RequestBody PortfolioDto portfolioDto) {
 
         return portfolioService.createNewPortfolio(portfolioDto);
     }

@@ -26,6 +26,7 @@ public class RestOrderController {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity< Order> createNewOrder(@RequestBody OrderDto orderDto){
+        System.out.println(orderDto.getPrice());
         logger.info("sending order to order validation service for validation ");
         ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(orderDto);
 

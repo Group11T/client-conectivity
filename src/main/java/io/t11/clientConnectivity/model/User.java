@@ -2,6 +2,7 @@ package io.t11.clientConnectivity.model;
 
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user_tbl")
@@ -77,12 +78,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(DOB, user.DOB);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(emailAddress, user.emailAddress) && Objects.equals(DOB, user.DOB);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, password, email, DOB);
+        return Objects.hash(id, firstName, lastName, password, emailAddress, DOB);
     }
 
     @Override
@@ -92,7 +93,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
-                ", emailAddress='" + email + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
                 ", DOB='" + DOB + '\'' +
                 '}';
     }

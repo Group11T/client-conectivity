@@ -1,16 +1,14 @@
 package io.t11.clientConnectivity.controller;
 
-import io.t11.clientConnectivity.model.User;
 import io.t11.clientConnectivity.dto.UserDto;
+import io.t11.clientConnectivity.model.User;
+
 import io.t11.clientConnectivity.service.IUserService;
-import io.t11.clientConnectivity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")

@@ -5,6 +5,5 @@ import io.t11.clientConnectivity.error.UserAlreadyExistException;
 import io.t11.clientConnectivity.model.User;
 
 public interface IUserService {
-
     User createNewUser(UserDto userDto) throws UserAlreadyExistException;
 }
