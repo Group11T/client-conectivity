@@ -17,24 +17,24 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public User createNewUser(@NotNull User user){
-       //User user = new User();
+    public User createNewUser(@NotNull UserDto userDto){
+        User user = new User();
 
-      // user.setFirstName(userDto.getFirstName());
-//       user.setLastName(userDto.getLastName());
-//       user.setEmailAddress(userDto.getEmailAddress());
-//       user.setPassword(userDto.getPassword());
-//       user.setDOB(userDto.getDOB());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmailAddress(userDto.getEmailAddress());
+        user.setPassword(userDto.getPassword());
+        user.setDOB(userDto.getDOB());
 
-       //return user;
-       return userRepository.save(user);
+        //return user;
+        return userRepository.save(user);
     }
 
-    public List<User> returnAllUsers(){
-
-        return userRepository.findAll();
-
-    }
+//    public List<User> returnAllUsers(){
+//
+//        return userRepository.findAll();
+//
+//    }
 
     public String authenticateUSer(){
         return ""; // so You Know something must be done here

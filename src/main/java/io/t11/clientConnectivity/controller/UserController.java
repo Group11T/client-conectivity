@@ -18,17 +18,16 @@ public class UserController {
     public UserService userService;
 
     @PostMapping("/register")
-    public User registerNewUser(@RequestBody User user){
-    //public User registerNewUser(@RequestBody UserDto userDto){
+    public User registerNewUser(@RequestBody UserDto userDto){
 
        // return user;
-        return userService.createNewUser(user);  // so You Know something must be done here
+        return userService.createNewUser(userDto);  // so You Know something must be done here
     }
 
-    @GetMapping("/all")
-    public List<User> getAllUsers(){
-        return userService.returnAllUsers();
-    }
+//    @GetMapping("/all")
+//    public List<User> getAllUsers(){
+//        return userService.returnAllUsers();
+//    }
 
     public String loginUser(){
         return ""; // so You Know something must be done here
