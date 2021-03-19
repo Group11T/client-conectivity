@@ -1,5 +1,6 @@
 package io.t11.clientConnectivity.model;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -9,6 +10,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  Long id;
+
     private String firstName;
     private String lastName;
     private String password;
@@ -38,6 +40,7 @@ public class User {
         this.password = password;
     }
 
+
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
@@ -59,12 +62,39 @@ public class User {
         return password;
     }
 
+
     public String getEmailAddress() {
         return emailAddress;
     }
 
     public String getDOB() {
         return DOB;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(DOB, user.DOB);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, password, email, DOB);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", emailAddress='" + email + '\'' +
+                ", DOB='" + DOB + '\'' +
+                '}';
     }
 
 }

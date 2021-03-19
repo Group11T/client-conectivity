@@ -3,21 +3,14 @@ package io.t11.clientConnectivity.dto;
 public class UserDto {
 
     private String firstName;
-    private String lastName;
-    private String password;
-    private String emailAddress;
-    private String DOB;
 
-    @Override
-    public String toString() {
-        return "UserDto{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", password='" + password + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", DOB='" + DOB + '\'' +
-                '}';
-    }
+    private String lastName;
+
+    private String password;
+
+    private String email;
+
+    private String DOB;
 
     public String getFirstName() {
         return firstName;
@@ -43,12 +36,12 @@ public class UserDto {
         this.password = password;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getDOB() {
@@ -57,5 +50,16 @@ public class UserDto {
 
     public void setDOB(String DOB) {
         this.DOB = DOB;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", emailAddress='" + email + '\'' +
+                ", DOB='" + DOB + '\'' +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package io.t11.clientConnectivity.service;
 
+import io.t11.clientConnectivity.error.UserAlreadyExistException;
 import com.sun.istack.NotNull;
 import io.t11.clientConnectivity.model.User;
 import io.t11.clientConnectivity.dao.UserRepository;
@@ -8,26 +9,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService implements IUserService{
 
     @Autowired
     UserRepository userRepository;
 
     public User createNewUser(@NotNull UserDto userDto){
-        User user = new User();
+        if (emailExists(userDto.getEmail())) {
+            throw new UserAlreadyExistException("There is an account with that email address: " + userDto.getEmail());
+        }
+       User user = new User();
+       user.setFirstName(userDto.getFirstName());
+       user.setLastName(userDto.getLastName());
+       user.setEmail(userDto.getEmail());
+       user.setPassword(userDto.getPassword());
+       user.setDOB(userDto.getDOB());
+       return userRepository.save(user);
 
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmailAddress(userDto.getEmailAddress());
-        user.setPassword(userDto.getPassword());
-        user.setDOB(userDto.getDOB());
-
-        //return user;
-        return userRepository.save(user);
     }
 
 //    public List<User> returnAllUsers(){
@@ -40,4 +41,7 @@ public class UserService {
         return ""; // so You Know something must be done here
     }
 
+    private boolean emailExists(final String email) {
+        return userRepository.findByEmail(email) != null;
+    }
 }

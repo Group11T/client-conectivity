@@ -28,6 +28,7 @@ public class Portfolio {
         return id;
     }
 
+
     public List<String> getListOfShares() {
         return listOfShares;
     }
@@ -48,4 +49,5 @@ public class Portfolio {
     public void setListOfShares(List<String> listOfShares) {
         this.listOfShares = listOfShares;
     }
+
 }
