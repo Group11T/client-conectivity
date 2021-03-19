@@ -1,4 +1,4 @@
-package io.t11.clientConnectivity;
+package io.t11.clientConnectivity.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
