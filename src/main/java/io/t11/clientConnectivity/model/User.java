@@ -1,11 +1,9 @@
-package io.t11.clientConnectivity;
+package io.t11.clientConnectivity.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "user_tbl")
 public class User {
 
     @Id
@@ -17,6 +15,15 @@ public class User {
     private String emailAddress;
     private String DOB;
 
+    public User() { }
+
+    public User(String firstName, String lastName, String password, String emailAddress, String DOB) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.emailAddress = emailAddress;
+        this.DOB = DOB;
+    }
 
     // Setters
     public void setFirstName(String firstName) {
