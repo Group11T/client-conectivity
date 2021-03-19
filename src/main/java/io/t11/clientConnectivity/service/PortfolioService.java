@@ -6,7 +6,10 @@ import io.t11.clientConnectivity.dto.PortfolioDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class PortfolioService {
 
     @Autowired
@@ -14,11 +17,13 @@ public class PortfolioService {
 
     public Portfolio createNewPortfolio(PortfolioDto portfolioDto){
         Portfolio portfolio = new Portfolio();
+
         portfolio.setPortfolioName(portfolioDto.getPortfolioName());
-       // portfolio.setListOfShares(portfolioDto.getListOfShares());
+        portfolio.setListOfShares(portfolioDto.getListOfShares());
 
     return portfolioRepository.save(portfolio);
     }
 
 
 }
+

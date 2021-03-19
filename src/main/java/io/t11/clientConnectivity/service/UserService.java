@@ -1,6 +1,7 @@
 package io.t11.clientConnectivity.service;
 
 import io.t11.clientConnectivity.error.UserAlreadyExistException;
+import com.sun.istack.NotNull;
 import io.t11.clientConnectivity.model.User;
 import io.t11.clientConnectivity.dao.UserRepository;
 import io.t11.clientConnectivity.dto.UserDto;
@@ -16,7 +17,7 @@ public class UserService implements IUserService{
     @Autowired
     UserRepository userRepository;
 
-    public User createNewUser(UserDto userDto){
+    public User createNewUser(@NotNull UserDto userDto){
         if (emailExists(userDto.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + userDto.getEmail());
         }
@@ -27,7 +28,14 @@ public class UserService implements IUserService{
        user.setPassword(userDto.getPassword());
        user.setDOB(userDto.getDOB());
        return userRepository.save(user);
+
     }
+
+//    public List<User> returnAllUsers(){
+//
+//        return userRepository.findAll();
+//
+//    }
 
     public String authenticateUSer(){
         return ""; // so You Know something must be done here

@@ -1,12 +1,10 @@
 package io.t11.clientConnectivity.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Objects;
+
+import javax.persistence.*;
 
 @Entity
+@Table(name = "user_tbl")
 public class User {
 
     @Id
@@ -14,15 +12,20 @@ public class User {
     private  Long id;
 
     private String firstName;
-
     private String lastName;
-
     private String password;
-
-    private String email;
-
+    private String emailAddress;
     private String DOB;
 
+    public User() { }
+
+    public User(String firstName, String lastName, String password, String emailAddress, String DOB) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.emailAddress = emailAddress;
+        this.DOB = DOB;
+    }
 
     // Setters
     public void setFirstName(String firstName) {
@@ -37,8 +40,9 @@ public class User {
         this.password = password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public void setDOB(String DOB) {
@@ -58,13 +62,15 @@ public class User {
         return password;
     }
 
-    public String getEmail() {
-        return email;
+
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
     public String getDOB() {
         return DOB;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -90,4 +96,5 @@ public class User {
                 ", DOB='" + DOB + '\'' +
                 '}';
     }
+
 }
