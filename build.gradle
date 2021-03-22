@@ -33,8 +33,8 @@ sourceSets {
 task genJaxb {
 	ext.sourcesDir = "${buildDir}/generated-sources/jaxb"
 	ext.classesDir = "${buildDir}/classes/jaxb"
-	ext.schema = "http://localhost:8040/ws/orders.wsdl"
-
+	ext.schema ="https://trade-validation.herokuapp.com/ws/orders.wsdl"
+//"http://localhost:8040/ws/orders.wsdl"
 	outputs.dir classesDir
 
 	doLast() {
@@ -45,7 +45,7 @@ task genJaxb {
 			mkdir(dir: classesDir)
 
 			xjc(destdir: sourcesDir, schema: schema,
-					package: "io.t11.validatiingorders.wsdl") {
+					package: "io.t11.validatingorders.wsdl") {
 				arg(value: "-wsdl")
 				produces(dir: sourcesDir, includes: "**/*.java")
 			}
