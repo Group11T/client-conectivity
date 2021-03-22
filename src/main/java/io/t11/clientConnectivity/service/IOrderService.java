@@ -1,10 +1,10 @@
 package io.t11.clientConnectivity.service;
 
-import io.t11.clientConnectivity.model.Order;
-import io.t11.validatiingorders.wsdl.ValidateOrderResponse;
+import io.t11.clientConnectivity.dto.OrderDto;
+import io.t11.clientConnectivity.model.CreatedOrder;
 
 public interface IOrderService {
 
-    Order createNewOrder(ValidateOrderResponse validateOrderResponse );
+    CreatedOrder createNewOrder(OrderDto orderDto);
 
 }

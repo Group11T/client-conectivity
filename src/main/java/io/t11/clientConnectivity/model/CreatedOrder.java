@@ -4,13 +4,12 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="orders")
-public class Order {
+@Table(name="created_orders")
+public class CreatedOrder {
 
     @Id
-    @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private  Long id;
 
     private String product;
 
@@ -19,6 +18,10 @@ public class Order {
     private double price;
 
     private String side;
+
+    private String validationStatus;
+
+    private String uniqueOrderId;
 
     public Long getId() {
         return id;
@@ -60,27 +63,51 @@ public class Order {
         this.side = side;
     }
 
+    public String getValidationStatus() {
+        return validationStatus;
+    }
+
+    public void setValidationStatus(String validationStatus) {
+        this.validationStatus = validationStatus;
+    }
+
+    public String getUniqueOrderId() {
+        return uniqueOrderId;
+    }
+
+    public void setUniqueOrderId(String uniqueOrderId) {
+        this.uniqueOrderId = uniqueOrderId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return quantity == order.quantity && Double.compare(order.price, price) == 0 && Objects.equals(id, order.id) && Objects.equals(product, order.product) && Objects.equals(side, order.side);
+        CreatedOrder that = (CreatedOrder) o;
+        return quantity == that.quantity &&
+                Double.compare(that.price, price) == 0 &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(product, that.product) &&
+                Objects.equals(side, that.side) &&
+                Objects.equals(validationStatus, that.validationStatus) &&
+                Objects.equals(uniqueOrderId, that.uniqueOrderId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, product, quantity, price, side);
+        return Objects.hash(id, product, quantity, price, side, validationStatus, uniqueOrderId);
     }
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "CreatedOrder{" +
                 "id=" + id +
                 ", product='" + product + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", side='" + side + '\'' +
+                ", validationStatus='" + validationStatus + '\'' +
+                ", uniqueOrderId='" + uniqueOrderId + '\'' +
                 '}';
     }
 }
