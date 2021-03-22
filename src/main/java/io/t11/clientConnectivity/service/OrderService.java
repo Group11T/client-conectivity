@@ -1,25 +1,29 @@
 package io.t11.clientConnectivity.service;
 
-import io.t11.clientConnectivity.dao.OrderRepository;
-import io.t11.clientConnectivity.model.Order;
-import io.t11.validatiingorders.wsdl.ValidateOrderResponse;
+import io.t11.clientConnectivity.dao.CreatedOrderRepository;
+import io.t11.clientConnectivity.dto.OrderDto;
+import io.t11.clientConnectivity.model.CreatedOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrderService implements IOrderService{
+public class OrderService implements IOrderService {
 
     @Autowired
-    OrderRepository orderRepository;
+    CreatedOrderRepository orderRepository;
+
+    public OrderService(CreatedOrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     @Override
-    public Order createNewOrder(ValidateOrderResponse validateOrderResponse) {
-        Order order = new Order();
-        order.setProduct(validateOrderResponse.getOrder().getProduct());
-        order.setQuantity(validateOrderResponse.getOrder().getQuantity());
-        order.setPrice(validateOrderResponse.getOrder().getPrice());
-        order.setSide(validateOrderResponse.getOrder().getSide());
-        return orderRepository.save(order);
+    public CreatedOrder createNewOrder(OrderDto orderDto) {
+        CreatedOrder createdOrder = new CreatedOrder();
+        createdOrder.setProduct(orderDto.getProduct());
+        createdOrder.setQuantity(orderDto.getQuantity());
+        createdOrder.setPrice(orderDto.getPrice());
+        createdOrder.setSide(orderDto.getSide());
+        return orderRepository.save(createdOrder);
     }
 
 }

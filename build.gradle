@@ -45,7 +45,7 @@ task genJaxb {
 			mkdir(dir: classesDir)
 
 			xjc(destdir: sourcesDir, schema: schema,
-					package: "io.t11.validatiingorders.wsdl") {
+					package: "io.t11.validatingorders.wsdl") {
 				arg(value: "-wsdl")
 				produces(dir: sourcesDir, includes: "**/*.java")
 			}
