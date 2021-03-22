@@ -16,7 +16,7 @@ public class OrderClient extends WebServiceGatewaySupport {
         validateOrderRequest.setPrice(order.getPrice());
         validateOrderRequest.setSide(order.getSide());
         ValidateOrderResponse validateOrderResponse=(ValidateOrderResponse)getWebServiceTemplate()
-                .marshalSendAndReceive("http://localhost:8040/ws/orders",validateOrderRequest,
+                .marshalSendAndReceive("https://trade-validation.herokuapp.com",validateOrderRequest,
                         new SoapActionCallback("http://www.group11.com/soap/api/order-validation/ValidateOrderRequest"));
         return validateOrderResponse;
     }
