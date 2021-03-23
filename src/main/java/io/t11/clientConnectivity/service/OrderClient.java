@@ -1,6 +1,8 @@
 package io.t11.clientConnectivity.service;
 
 import io.t11.clientConnectivity.dto.OrderDto;
+import io.t11.clientConnectivity.model.CreatedOrder;
+import io.t11.clientConnectivity.model.User;
 import io.t11.validatiingorders.wsdl.ValidateOrderRequest;
 import io.t11.validatiingorders.wsdl.ValidateOrderResponse;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
@@ -9,15 +11,17 @@ import org.springframework.ws.soap.client.core.SoapActionCallback;
 
 public class OrderClient extends WebServiceGatewaySupport {
 
-    public ValidateOrderResponse validateNewOrder(OrderDto order){
+    public ValidateOrderResponse validateNewOrder(CreatedOrder createdOrder, User user){
         ValidateOrderRequest validateOrderRequest = new ValidateOrderRequest();
-        validateOrderRequest.setProduct(order.getProduct());
-        validateOrderRequest.setQuantity(order.getQuantity());
-        validateOrderRequest.setPrice(order.getPrice());
-        validateOrderRequest.setSide(order.getSide());
+        validateOrderRequest.setOrderId(createdOrder.getId());
+        validateOrderRequest.setProduct(createdOrder.getProduct());
+        validateOrderRequest.setQuantity(createdOrder.getQuantity());
+        validateOrderRequest.setPrice(createdOrder.getPrice());
+        validateOrderRequest.setSide(createdOrder.getSide());
+//        validateOrderRequest.setUserId(user.getId);
         ValidateOrderResponse validateOrderResponse=(ValidateOrderResponse)getWebServiceTemplate()
                 .marshalSendAndReceive("https://trade-validation.herokuapp.com",validateOrderRequest,
-                        new SoapActionCallback("http://www.group11.com/soap/api/order-validation/ValidateOrderRequest"));
+                        new SoapActionCallback("http://www.group11.com/soap/api/createdOrder-validation/ValidateOrderRequest"));
         return validateOrderResponse;
     }
 }

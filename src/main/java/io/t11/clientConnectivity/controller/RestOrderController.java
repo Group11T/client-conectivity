@@ -2,6 +2,8 @@ package io.t11.clientConnectivity.controller;
 
 import io.t11.clientConnectivity.dto.OrderDto;
 import io.t11.clientConnectivity.model.CreatedOrder;
+import io.t11.clientConnectivity.model.Portfolio;
+import io.t11.clientConnectivity.model.User;
 import io.t11.clientConnectivity.service.IOrderService;
 import io.t11.clientConnectivity.service.OrderClient;
 import io.t11.validatiingorders.wsdl.ValidateOrderResponse;
@@ -34,9 +36,23 @@ public class RestOrderController {
         logger.info("saving new order");
         CreatedOrder createdOrder = orderService.createNewOrder(orderDto);
 
-        logger.info("sending order to order validation service for validation ");
-        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(createdOrder,1L);
+        //get Contextholder here
+        User user = new User();
+
+        logger.info("sending order to order_validation_service for validation ");
+        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(createdOrder,user);
         return ResponseEntity.ok().body(validateOrderResponse);
+    }
+
+    @PostMapping("/add/portfolio")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Portfolio> addStockToPortfolio(@RequestBody CreatedOrder createdOrder){
+        logger.info("adding new stock to portfolio");
+
+        //get Contextholder here
+        User user = new User();
+
+        return ResponseEntity.ok().body(new Portfolio());
     }
 
 }

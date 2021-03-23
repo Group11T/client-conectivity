@@ -50,6 +50,14 @@ public class User {
         this.DOB = DOB;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     // Getters
     public String getFirstName() {
         return firstName;
@@ -97,5 +105,4 @@ public class User {
                 ", DOB='" + DOB + '\'' +
                 '}';
     }
-
 }
