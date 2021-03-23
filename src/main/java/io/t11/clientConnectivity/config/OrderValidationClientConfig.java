@@ -11,7 +11,7 @@ public class OrderValidationClientConfig {
     @Bean
     public Jaxb2Marshaller marshaller(){
         Jaxb2Marshaller marshaller=new Jaxb2Marshaller();
-        marshaller.setContextPath("io.t11.validatiingorders.wsdl");
+        marshaller.setContextPath("io.t11.validatingorders.wsdl");
         return marshaller;
     }
 
@@ -21,7 +21,6 @@ public class OrderValidationClientConfig {
 
 
         client.setDefaultUri("https://trade-validation.herokuapp.com/ws");
-        //"http://localhost:8040/ws"
 
         client.setMarshaller(marshaller);
         client.setUnmarshaller(marshaller);
