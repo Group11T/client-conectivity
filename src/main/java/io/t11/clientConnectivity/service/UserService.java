@@ -37,7 +37,7 @@ public class UserService implements IUserService{
         user.setEmailAddress(userDto.getEmailAddress());
         user.setPassword(userDto.getPassword());
         user.setDOB(userDto.getDOB());
-        user.setPortfolio(portfolio);
+//        user.setPortfolio(portfolio);
 
         portfolioRepository.save(portfolio);
         return userRepository.save(user);
@@ -45,7 +45,7 @@ public class UserService implements IUserService{
 
     @Override
     public Portfolio getUserPortfolio(User user) {
-        return user.getPortfolio();
+        return new Portfolio("k");
     }
 
     @Override
