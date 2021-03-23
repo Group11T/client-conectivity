@@ -18,8 +18,11 @@ public class OrderValidationClientConfig {
     @Bean
     public OrderClient orderClient(Jaxb2Marshaller marshaller) {
         OrderClient client = new OrderClient();
-        //client.setDefaultUri("http://localhost:8040/ws/orders.wsdl");
-        client.setDefaultUri("https://trade-validation.herokuapp.com");
+
+
+        client.setDefaultUri("https://trade-validation.herokuapp.com/ws");
+        //"http://localhost:8040/ws"
+
         client.setMarshaller(marshaller);
         client.setUnmarshaller(marshaller);
         return client;

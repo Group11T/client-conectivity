@@ -14,11 +14,13 @@ public class Portfolio {
     private Long id;
 
     @ElementCollection
-    private List<String> listOfShares = new ArrayList<>();
+    private List<CreatedOrder> listOfShares = new ArrayList<>();
 
     private String portfolioName;
 
-    public Portfolio() { }
+    public Portfolio(String name) {
+        this.portfolioName = name;
+    }
 
     public Long getId() {
         return id;
@@ -28,11 +30,11 @@ public class Portfolio {
         this.id = id;
     }
 
-    public List<String> getListOfShares() {
+    public List<CreatedOrder> getListOfShares() {
         return listOfShares;
     }
 
-    public void setListOfShares(List<String> listOfShares) {
+    public void setListOfShares(List<CreatedOrder> listOfShares) {
         this.listOfShares = listOfShares;
     }
 

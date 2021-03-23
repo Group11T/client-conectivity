@@ -35,7 +35,8 @@ public class RestOrderController {
         CreatedOrder createdOrder = orderService.createNewOrder(orderDto);
 
         logger.info("sending order to order validation service for validation ");
-        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(createdOrder,1L);
+        //ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(createdOrder,1L);
+        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(orderDto);
         return ResponseEntity.ok().body(validateOrderResponse);
     }
 

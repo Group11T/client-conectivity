@@ -17,8 +17,15 @@ public class User {
     private String password;
     private String emailAddress;
     private String DOB;
+    private double balance;
 
-    public User() { }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "portfolio_id", referencedColumnName = "id")
+    private Portfolio portfolio;
+
+    public User() {
+        balance = 100;
+    }
 
     public User(String firstName, String lastName, String password, String emailAddress, String DOB) {
         this.firstName = firstName;
@@ -50,6 +57,10 @@ public class User {
         this.DOB = DOB;
     }
 
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
+    }
+
     // Getters
     public String getFirstName() {
         return firstName;
@@ -72,6 +83,9 @@ public class User {
         return DOB;
     }
 
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -89,13 +103,12 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
+                "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
                 ", emailAddress='" + emailAddress + '\'' +
                 ", DOB='" + DOB + '\'' +
+                ", portfolio=" + portfolio +
                 '}';
     }
-
 }

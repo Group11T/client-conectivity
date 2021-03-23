@@ -16,7 +16,7 @@ public class PortfolioService {
     PortfolioRepository portfolioRepository;
 
     public Portfolio createNewPortfolio(PortfolioDto portfolioDto){
-        Portfolio portfolio = new Portfolio();
+        Portfolio portfolio = new Portfolio("port1");
         portfolio.setPortfolioName(portfolioDto.getPortfolioName());
         portfolio.setListOfShares(portfolioDto.getListOfShares());
         return portfolioRepository.save(portfolio);

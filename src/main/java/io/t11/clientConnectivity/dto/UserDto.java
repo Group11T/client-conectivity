@@ -8,7 +8,7 @@ public class UserDto {
 
     private String password;
 
-    private String email;
+    private String emailAddress;
 
     private String DOB;
 
@@ -36,12 +36,12 @@ public class UserDto {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getDOB() {
@@ -58,7 +58,7 @@ public class UserDto {
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
-                ", emailAddress='" + email + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
                 ", DOB='" + DOB + '\'' +
                 '}';
     }
