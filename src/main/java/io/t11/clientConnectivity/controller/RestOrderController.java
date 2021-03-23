@@ -1,7 +1,7 @@
 package io.t11.clientConnectivity.controller;
 
 import io.t11.clientConnectivity.dto.OrderDto;
-import io.t11.clientConnectivity.model.Order;
+import io.t11.clientConnectivity.model.CreatedOrder;
 import io.t11.clientConnectivity.service.IOrderService;
 import io.t11.clientConnectivity.service.OrderClient;
 import io.t11.validatiingorders.wsdl.ValidateOrderResponse;
@@ -18,23 +18,26 @@ public class RestOrderController {
     private static Logger logger = LoggerFactory.getLogger((RestOrderController.class));
 
     @Autowired
-    IOrderService orderService;
+    OrderClient orderClient;
 
     @Autowired
-    OrderClient orderClient;
+    IOrderService orderService;
+
+    public RestOrderController(OrderClient orderClient, IOrderService orderService) {
+        this.orderClient = orderClient;
+        this.orderService = orderService;
+    }
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity< Order> createNewOrder(@RequestBody OrderDto orderDto){
-        System.out.println(orderDto.getPrice());
+    public ResponseEntity<ValidateOrderResponse> createNewOrder(@RequestBody OrderDto orderDto){
+        logger.info("saving new order");
+        CreatedOrder createdOrder = orderService.createNewOrder(orderDto);
+
         logger.info("sending order to order validation service for validation ");
-        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(orderDto);
-
-        logger.info("saving valid order");
-        Order order = orderService.createNewOrder(validateOrderResponse);
-       return ResponseEntity.ok().body(order);
+        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(createdOrder,1L);
+        return ResponseEntity.ok().body(validateOrderResponse);
     }
-
 
 }
 
