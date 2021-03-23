@@ -8,6 +8,6 @@ public interface IOrderService {
 
     CreatedOrder createNewOrder(OrderDto orderDto);
 
-    CreatedOrder addCreatedOrderToPortfolio(CreatedOrder createdOrder,User user);
+//    CreatedOrder addCreatedOrderToPortfolio(CreatedOrder createdOrder, User user);
 
 }

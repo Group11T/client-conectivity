@@ -13,6 +13,7 @@ public class OrderService implements IOrderService {
     @Autowired
     CreatedOrderRepository orderRepository;
 
+    private final String defaultValidityStatus="not validated";
     public OrderService(CreatedOrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
@@ -24,13 +25,14 @@ public class OrderService implements IOrderService {
         createdOrder.setQuantity(orderDto.getQuantity());
         createdOrder.setPrice(orderDto.getPrice());
         createdOrder.setSide(orderDto.getSide());
+        createdOrder.setValidationStatus(defaultValidityStatus);
         return orderRepository.save(createdOrder);
     }
-
-    @Override
-    public CreatedOrder addCreatedOrderToPortfolio(CreatedOrder createdOrder, User user) {
-//        user.getPortfolio().add(createdOrder);
-        return new CreatedOrder();
-    }
+//
+//    @Override
+//    public CreatedOrder addCreatedOrderToPortfolio(CreatedOrder createdOrder, User user) {
+////        user.getPortfolio().add(createdOrder);
+//        return new CreatedOrder();
+//    }
 
 }

@@ -1,11 +1,9 @@
 package io.t11.clientConnectivity.service;
 
-import io.t11.clientConnectivity.dto.OrderDto;
 import io.t11.clientConnectivity.model.CreatedOrder;
 import io.t11.clientConnectivity.model.User;
 import io.t11.validatiingorders.wsdl.ValidateOrderRequest;
 import io.t11.validatiingorders.wsdl.ValidateOrderResponse;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 

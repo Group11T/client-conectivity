@@ -21,8 +21,6 @@ public class CreatedOrder {
 
     private String validationStatus;
 
-    private String uniqueOrderId;
-
     public Long getId() {
         return id;
     }
@@ -71,14 +69,6 @@ public class CreatedOrder {
         this.validationStatus = validationStatus;
     }
 
-    public String getUniqueOrderId() {
-        return uniqueOrderId;
-    }
-
-    public void setUniqueOrderId(String uniqueOrderId) {
-        this.uniqueOrderId = uniqueOrderId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,13 +79,12 @@ public class CreatedOrder {
                 Objects.equals(id, that.id) &&
                 Objects.equals(product, that.product) &&
                 Objects.equals(side, that.side) &&
-                Objects.equals(validationStatus, that.validationStatus) &&
-                Objects.equals(uniqueOrderId, that.uniqueOrderId);
+                Objects.equals(validationStatus, that.validationStatus);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, product, quantity, price, side, validationStatus, uniqueOrderId);
+        return Objects.hash(id, product, quantity, price, side, validationStatus);
     }
 
     @Override
@@ -107,7 +96,6 @@ public class CreatedOrder {
                 ", price=" + price +
                 ", side='" + side + '\'' +
                 ", validationStatus='" + validationStatus + '\'' +
-                ", uniqueOrderId='" + uniqueOrderId + '\'' +
                 '}';
     }
 }
