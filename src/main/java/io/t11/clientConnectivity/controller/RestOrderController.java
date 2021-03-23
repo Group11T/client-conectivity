@@ -2,9 +2,10 @@ package io.t11.clientConnectivity.controller;
 
 import io.t11.clientConnectivity.dto.OrderDto;
 import io.t11.clientConnectivity.model.CreatedOrder;
+import io.t11.clientConnectivity.model.User;
 import io.t11.clientConnectivity.service.IOrderService;
 import io.t11.clientConnectivity.service.OrderClient;
-import io.t11.validatiingorders.wsdl.ValidateOrderResponse;
+import io.t11.validatingorders.wsdl.ValidateOrderResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,13 @@ public class RestOrderController {
         logger.info("saving new order");
         CreatedOrder createdOrder = orderService.createNewOrder(orderDto);
 
-        logger.info("sending order to order validation service for validation ");
-        //ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(createdOrder,1L);
-        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(orderDto);
+        //get Contextholder here
+        User user = new User();
+
+        logger.info("sending order to order_validation_service for validation ");
+        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(createdOrder,user);
         return ResponseEntity.ok().body(validateOrderResponse);
     }
-
 }
 
 
