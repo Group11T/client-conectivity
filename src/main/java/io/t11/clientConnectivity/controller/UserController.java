@@ -26,7 +26,7 @@ public class UserController {
     public User registerNewUser(@RequestBody UserDto userDto){
 
        // return user;
-
+        System.out.println(userDto);
         return userService.createNewUser(userDto);  // so You Know something must be done here
     }
 

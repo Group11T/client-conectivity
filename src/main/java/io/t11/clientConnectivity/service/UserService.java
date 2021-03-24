@@ -39,7 +39,7 @@ public class UserService implements IUserService{
         user.setDOB(userDto.getDOB());
 
 //        user.setPortfolio(portfolio);
-
+        System.out.println(userDto);
 
         portfolioRepository.save(portfolio);
         return userRepository.save(user);
