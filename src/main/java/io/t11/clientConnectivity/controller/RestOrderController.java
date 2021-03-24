@@ -1,7 +1,7 @@
 package io.t11.clientConnectivity.controller;
 
 import io.t11.clientConnectivity.dto.OrderDto;
-import io.t11.clientConnectivity.model.CreatedOrder;
+import io.t11.clientConnectivity.model.Order;
 import io.t11.clientConnectivity.model.User;
 import io.t11.clientConnectivity.service.IOrderService;
 import io.t11.clientConnectivity.service.OrderClient;
@@ -33,13 +33,13 @@ public class RestOrderController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ValidateOrderResponse> createNewOrder(@RequestBody OrderDto orderDto){
         logger.info("saving new order");
-        CreatedOrder createdOrder = orderService.createNewOrder(orderDto);
+        Order order = orderService.createNewOrder(orderDto);
 
         //get Contextholder here
         User user = new User();
 
         logger.info("sending order to order_validation_service for validation ");
-        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(createdOrder,user);
+        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(order,user);
         return ResponseEntity.ok().body(validateOrderResponse);
     }
 }

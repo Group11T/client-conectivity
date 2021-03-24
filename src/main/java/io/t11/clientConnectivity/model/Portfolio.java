@@ -14,7 +14,7 @@ public class Portfolio {
     private Long id;
 
     @ElementCollection
-    private List<CreatedOrder> listOfShares = new ArrayList<>();
+    private List<Order> listOfShares = new ArrayList<>();
 
     private String portfolioName;
 
@@ -30,11 +30,11 @@ public class Portfolio {
         this.id = id;
     }
 
-    public List<CreatedOrder> getListOfShares() {
+    public List<Order> getListOfShares() {
         return listOfShares;
     }
 
-    public void setListOfShares(List<CreatedOrder> listOfShares) {
+    public void setListOfShares(List<Order> listOfShares) {
         this.listOfShares = listOfShares;
     }
 

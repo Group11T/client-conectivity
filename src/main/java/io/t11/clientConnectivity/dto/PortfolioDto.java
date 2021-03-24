@@ -1,12 +1,12 @@
 package io.t11.clientConnectivity.dto;
 
-import io.t11.clientConnectivity.model.CreatedOrder;
+import io.t11.clientConnectivity.model.Order;
 
 import java.util.List;
 
 public class PortfolioDto {
 
-    private List<CreatedOrder> listOfShares;
+    private List<Order> listOfShares;
     private String portfolioName;
 
     @Override
@@ -17,11 +17,11 @@ public class PortfolioDto {
                 '}';
     }
 
-    public List<CreatedOrder> getListOfShares() {
+    public List<Order> getListOfShares() {
         return listOfShares;
     }
 
-    public void setListOfShares(List<CreatedOrder> listOfShares) {
+    public void setListOfShares(List<Order> listOfShares) {
         this.listOfShares = listOfShares;
     }
 

@@ -2,8 +2,7 @@ package io.t11.clientConnectivity.service;
 
 import io.t11.clientConnectivity.dao.CreatedOrderRepository;
 import io.t11.clientConnectivity.dto.OrderDto;
-import io.t11.clientConnectivity.model.CreatedOrder;
-import io.t11.clientConnectivity.model.User;
+import io.t11.clientConnectivity.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,20 +18,14 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public CreatedOrder createNewOrder(OrderDto orderDto) {
-        CreatedOrder createdOrder = new CreatedOrder();
-        createdOrder.setProduct(orderDto.getProduct());
-        createdOrder.setQuantity(orderDto.getQuantity());
-        createdOrder.setPrice(orderDto.getPrice());
-        createdOrder.setSide(orderDto.getSide());
-        createdOrder.setValidationStatus(defaultValidityStatus);
-        return orderRepository.save(createdOrder);
+    public Order createNewOrder(OrderDto orderDto) {
+        Order order = new Order();
+        order.setProduct(orderDto.getProduct());
+        order.setQuantity(orderDto.getQuantity());
+        order.setPrice(orderDto.getPrice());
+        order.setSide(orderDto.getSide());
+        order.setValidationStatus(defaultValidityStatus);
+        return orderRepository.save(order);
     }
-//
-//    @Override
-//    public CreatedOrder addCreatedOrderToPortfolio(CreatedOrder createdOrder, User user) {
-////        user.getPortfolio().add(createdOrder);
-//        return new CreatedOrder();
-//    }
 
 }

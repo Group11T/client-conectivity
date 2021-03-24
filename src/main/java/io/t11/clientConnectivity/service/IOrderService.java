@@ -1,12 +1,11 @@
 package io.t11.clientConnectivity.service;
 
 import io.t11.clientConnectivity.dto.OrderDto;
-import io.t11.clientConnectivity.model.CreatedOrder;
-import io.t11.clientConnectivity.model.User;
+import io.t11.clientConnectivity.model.Order;
 
 public interface IOrderService {
 
-    CreatedOrder createNewOrder(OrderDto orderDto);
+    Order createNewOrder(OrderDto orderDto);
 
 //    CreatedOrder addCreatedOrderToPortfolio(CreatedOrder createdOrder, User user);
 

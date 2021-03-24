@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name="created_orders")
-public class CreatedOrder {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -73,7 +73,7 @@ public class CreatedOrder {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CreatedOrder that = (CreatedOrder) o;
+        Order that = (Order) o;
         return quantity == that.quantity &&
                 Double.compare(that.price, price) == 0 &&
                 Objects.equals(id, that.id) &&
