@@ -73,7 +73,7 @@ public class UserService implements IUserService, UserDetailsService {
 
     // implement userDetailService here
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
 
         //logic to get user from the database
 
