@@ -17,8 +17,11 @@ public class User {
     private String password;
     private String emailAddress;
     private String DOB;
+    private double balance;
 
-    public User() { }
+    public User() {
+        this.balance = 100;
+    }
 
     public User(String firstName, String lastName, String password, String emailAddress, String DOB) {
         this.firstName = firstName;
@@ -26,6 +29,7 @@ public class User {
         this.password = password;
         this.emailAddress = emailAddress;
         this.DOB = DOB;
+        this.balance = 100;
     }
 
     // Setters
