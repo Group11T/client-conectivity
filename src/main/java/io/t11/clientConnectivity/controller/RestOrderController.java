@@ -1,5 +1,6 @@
 package io.t11.clientConnectivity.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.t11.clientConnectivity.dto.OrderDto;
 import io.t11.clientConnectivity.model.Order;
 import io.t11.clientConnectivity.model.User;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.LinkedHashMap;
 
 @RestController
 @RequestMapping("/orders")
@@ -23,6 +27,8 @@ public class RestOrderController {
 
     @Autowired
     IOrderService orderService;
+
+    RestTemplate restTemplate=new RestTemplate();
 
     public RestOrderController(OrderClient orderClient, IOrderService orderService) {
         this.orderClient = orderClient;
@@ -42,6 +48,7 @@ public class RestOrderController {
         ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(order,user);
         return ResponseEntity.ok().body(validateOrderResponse);
     }
+
 }
 
 
