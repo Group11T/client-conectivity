@@ -13,9 +13,4 @@ public class ClientConnectivityApplication {
 		SpringApplication.run(ClientConnectivityApplication.class, args);
 	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder(){
-		return NoOpPasswordEncoder.getInstance();
-	}
-
 }

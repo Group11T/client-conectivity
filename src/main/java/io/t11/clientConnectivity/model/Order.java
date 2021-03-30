@@ -1,10 +1,9 @@
 package io.t11.clientConnectivity.model;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
-@Table(name="created_orders")
+@Table(name="orders")
 public class Order {
 
     @Id
@@ -20,6 +19,10 @@ public class Order {
     private String side;
 
     private String validationStatus;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     public Long getId() {
         return id;
@@ -69,33 +72,24 @@ public class Order {
         this.validationStatus = validationStatus;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order that = (Order) o;
-        return quantity == that.quantity &&
-                Double.compare(that.price, price) == 0 &&
-                Objects.equals(id, that.id) &&
-                Objects.equals(product, that.product) &&
-                Objects.equals(side, that.side) &&
-                Objects.equals(validationStatus, that.validationStatus);
+    public User getUser() {
+        return user;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, product, quantity, price, side, validationStatus);
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
-        return "CreatedOrder{" +
+        return "Order{" +
                 "id=" + id +
                 ", product='" + product + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", side='" + side + '\'' +
                 ", validationStatus='" + validationStatus + '\'' +
+                ", user=" + user +
                 '}';
     }
 }

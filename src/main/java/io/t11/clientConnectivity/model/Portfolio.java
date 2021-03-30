@@ -13,14 +13,13 @@ public class Portfolio {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ElementCollection
-    private List<Order> listOfShares = new ArrayList<>();
+    private String ticker;
 
-    private String portfolioName;
+    private int stockQuantity;
 
-    public Portfolio(String name) {
-        this.portfolioName = name;
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     public Long getId() {
         return id;
@@ -30,43 +29,37 @@ public class Portfolio {
         this.id = id;
     }
 
-    public List<Order> getListOfShares() {
-        return listOfShares;
+    public String getTicker() {
+        return ticker;
     }
 
-    public void setListOfShares(List<Order> listOfShares) {
-        this.listOfShares = listOfShares;
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
     }
 
-    public String getPortfolioName() {
-        return portfolioName;
+    public int getStockQuantity() {
+        return stockQuantity;
     }
 
-    public void setPortfolioName(String portfolioName) {
-        this.portfolioName = portfolioName;
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Portfolio portfolio = (Portfolio) o;
-        return Objects.equals(id, portfolio.id) &&
-                Objects.equals(listOfShares, portfolio.listOfShares) &&
-                Objects.equals(portfolioName, portfolio.portfolioName);
+    public User getUser() {
+        return user;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, listOfShares, portfolioName);
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "Portfolio{" +
                 "id=" + id +
-                ", listOfShares=" + listOfShares +
-                ", portfolioName='" + portfolioName + '\'' +
+                ", ticker='" + ticker + '\'' +
+                ", stockQuantity='" + stockQuantity + '\'' +
+                ", user=" + user +
                 '}';
     }
 }

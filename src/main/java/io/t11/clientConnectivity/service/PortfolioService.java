@@ -3,24 +3,59 @@ package io.t11.clientConnectivity.service;
 import io.t11.clientConnectivity.dao.PortfolioRepository;
 import io.t11.clientConnectivity.dto.PortfolioDto;
 import io.t11.clientConnectivity.model.Portfolio;
+import io.t11.clientConnectivity.model.Stock;
+import io.t11.clientConnectivity.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
-public class PortfolioService {
+public class PortfolioService implements IPortfolioService{
 
     @Autowired
     PortfolioRepository portfolioRepository;
 
-    public Portfolio createNewPortfolio(PortfolioDto portfolioDto){
-        Portfolio portfolio = new Portfolio("port1");
-        portfolio.setPortfolioName(portfolioDto.getPortfolioName());
-        portfolio.setListOfShares(portfolioDto.getListOfShares());
-        return portfolioRepository.save(portfolio);
+    @Override
+    public Portfolio addPortfolio(User user,String ticker) {
+        List<Portfolio> portfolios = portfolioRepository.findAllByUser(user);
+        Portfolio portfolio = null;
+
+        boolean portfolioExists = portfolios.stream().anyMatch(portfolioToFind -> ticker.equals(portfolioToFind.getTicker()));
+        if(!portfolioExists){
+            portfolio = new Portfolio();
+            portfolio.setTicker(ticker);
+            portfolio.setStockQuantity(0);
+            portfolio.setUser(user);
+            portfolioRepository.save(portfolio);
+        }
+        return portfolio;
     }
 
+    @Override
+    public List<Portfolio> addStockToPortfolio(Stock stock,User user) {
+        List<Portfolio> portfolios = portfolioRepository.findAllByUser(user);
+        for (Portfolio portfolio: portfolios) {
+            if(portfolio.getTicker().equals(stock.getTicker())){
+                portfolio.setStockQuantity(stock.getCummlativeQuantity());
+                portfolioRepository.save(portfolio);
+            }
+        }
+        return portfolios;
+    }
+
+    @Override
+    public void closePortfolio(String ticker, User user) {
+        List<Portfolio> portfolios = portfolioRepository.findAllByUser(user);
+        portfolios.stream()
+                .filter(portfolio -> portfolio.getTicker().equals(ticker))
+                .map(portfolio -> {
+                    portfolioRepository.delete(portfolio);
+                    return portfolios;
+                }).collect(Collectors.toList());
+
+    }
 }
 

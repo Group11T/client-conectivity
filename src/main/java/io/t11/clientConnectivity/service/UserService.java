@@ -1,6 +1,5 @@
 package io.t11.clientConnectivity.service;
 
-import com.sun.istack.NotNull;
 import io.t11.clientConnectivity.dao.PortfolioRepository;
 import io.t11.clientConnectivity.dao.UserRepository;
 import io.t11.clientConnectivity.dto.UserDto;
@@ -8,25 +7,20 @@ import io.t11.clientConnectivity.error.UserAlreadyExistException;
 import io.t11.clientConnectivity.model.Portfolio;
 import io.t11.clientConnectivity.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@Transactional
-public class UserService implements IUserService, UserDetailsService {
+public class UserService implements IUserService {
 
     @Autowired
     UserRepository userRepository;
 
     @Autowired
-    PortfolioRepository portfolioRepository;
-
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User createNewUser(UserDto userDto) throws UserAlreadyExistException {
@@ -34,56 +28,41 @@ public class UserService implements IUserService, UserDetailsService {
             throw new UserAlreadyExistException("There is an account with that email address: " + userDto.getEmailAddress());
         }
         User user = new User();
-        Portfolio portfolio = new Portfolio("portfolio1");
-
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmailAddress(userDto.getEmailAddress());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setDOB(userDto.getDOB());
-
-//        user.setPortfolio(portfolio);
-
-
-        portfolioRepository.save(portfolio);
         return userRepository.save(user);
     }
 
     @Override
-    public Portfolio getUserPortfolio(User user) {
-        return new Portfolio("k");
+    public double getUserBalance(Long id) {
+        double balance = 0;
+        Optional<User> user = getUserById(id);
+        if(user.isPresent()){
+            balance = user.get().getBalance();
+        }
+        return balance;
     }
 
     @Override
-    public List<User> returnAllUsers(){
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmailAddress(email);
+    }
+
+    @Override
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public List<User> getAllUsers(){
         return userRepository.findAll();
-
     }
-
-    @Override
-    public User findUserById(Long id) {
-        return userRepository.findById(id).get();
-    }
-
-
 
     private boolean emailExists(final String emailAddress) {
         return userRepository.findByEmailAddress(emailAddress) != null;
     }
-
-    // implement userDetailService here
-    @Override
-    public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
-
-        //logic to get user from the database
-
-
-        return new org.springframework.security.core.userdetails.User("admin","password",new ArrayList<>());
-    }
-
-
-
-
-
 }
 
