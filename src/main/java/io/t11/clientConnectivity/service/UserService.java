@@ -37,13 +37,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public double getUserBalance(Long id) {
-        double balance = 0;
-        Optional<User> user = getUserById(id);
-        if(user.isPresent()){
-            balance = user.get().getBalance();
-        }
-        return balance;
+    public double getUserBalance(User user) {
+        return user.getBalance();
     }
 
     @Override

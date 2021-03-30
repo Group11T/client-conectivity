@@ -11,7 +11,7 @@ public interface IUserService {
 
     User createNewUser(UserDto userDto) throws UserAlreadyExistException;
 
-    double getUserBalance(Long id);
+    double getUserBalance(User user);
 
     User findUserByEmail(String email);
 

@@ -6,6 +6,8 @@ import io.t11.clientConnectivity.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,15 +24,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/users/register")
     public User registerNewUser(@RequestBody UserDto userDto){
         logger.info("Registering new user");
         return userService.createNewUser(userDto);
     }
 
-    @GetMapping("/account/{id}")
-    public double checkUserBalance(@PathVariable Long id){
-        return userService.getUserBalance(id);
+    @GetMapping("/users/balance")
+    public double checkUserBalance(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final User user = userService.findUserByEmail(userDetails.getUsername());
+
+        return userService.getUserBalance(user);
     }
 
     @GetMapping("/users")

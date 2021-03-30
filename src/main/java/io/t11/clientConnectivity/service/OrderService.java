@@ -3,10 +3,8 @@ package io.t11.clientConnectivity.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.t11.clientConnectivity.dao.OrderRepository;
-import io.t11.clientConnectivity.dao.StockRepository;
 import io.t11.clientConnectivity.dto.OrderDto;
 import io.t11.clientConnectivity.model.Order;
-import io.t11.clientConnectivity.model.Stock;
 import io.t11.clientConnectivity.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +19,6 @@ public class OrderService implements IOrderService {
 
     @Autowired
     OrderRepository orderRepository;
-
-    @Autowired
-    StockRepository stockRepository;
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -41,12 +36,15 @@ public class OrderService implements IOrderService {
         order.setSide(orderDto.getSide());
         order.setValidationStatus(defaultValidityStatus);
         order.setUser(user);
+        order.setCumulativeQuantity(0);
+        order.setUniqueId(null);
+        order.setExchangeTradedOn(null);
         return orderRepository.save(order);
     }
 
     @Override
-    public void cancelOrder(Stock stock) {
-        final String url =stock.getExchange()+"order/" + stock.getUniqueId();
+    public void cancelOrder(Order order) {
+        final String url =order.getExchangeTradedOn()+"order/" + order.getUniqueId();
         restTemplate.delete(url);
     }
 
@@ -58,17 +56,17 @@ public class OrderService implements IOrderService {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         List marketDataList = marketData.stream()
-                .map(item->objectMapper.convertValue(item, Stock.class))
-                .filter(item->item.getCummlativeQuantity() < item.getQuantity())
+                .map(item->objectMapper.convertValue(item, Order.class))
+                .filter(item->item.getCumulativeQuantity() < item.getQuantity())
                 .collect(Collectors.toList());
         return marketDataList;
     }
 
     @Override
-    public List<Stock> getAllOpenTradesForUser(User user) {
-        List<Stock> stockList = stockRepository.findAllByUser(user);
-        List<Stock> openStocks = stockList.stream()
-                .filter(stock -> stock.getCummlativeQuantity() <stock.getQuantity())
+    public List<Order> getAllOpenTradesForUser(User user) {
+        List<Order> stockList = orderRepository.findAllByUser(user);
+        List<Order> openStocks = stockList.stream()
+                .filter(stock -> stock.getCumulativeQuantity() <stock.getQuantity())
                 .collect(Collectors.toList());
         return openStocks;
     }
@@ -79,17 +77,17 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Stock getStock(String uniqueId){
-       return stockRepository.findByUniqueId(uniqueId);
+    public Order getOrder(String uniqueId){
+       return orderRepository.findByUniqueId(uniqueId);
     }
 
     @Override
-    public Stock trackStockStatus(Stock stock) {
-        String url = stock.getExchange() + "orders/" + stock.getUniqueId();
+    public Order trackOrderStatus(Order order) {
+        String url = order.getExchangeTradedOn() + "orders/" + order.getUniqueId();
         Object item = restTemplate.getForObject(url,Object.class);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        Stock stockItem = objectMapper.convertValue(item, Stock.class);
+        Order stockItem = objectMapper.convertValue(item, Order.class);
         return stockItem;
     }
 

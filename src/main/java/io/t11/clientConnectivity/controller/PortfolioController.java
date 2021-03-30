@@ -1,14 +1,15 @@
 package io.t11.clientConnectivity.controller;
 
+import io.t11.clientConnectivity.model.Order;
 import io.t11.clientConnectivity.model.Portfolio;
-import io.t11.clientConnectivity.dto.PortfolioDto;
-import io.t11.clientConnectivity.model.Stock;
 import io.t11.clientConnectivity.model.User;
+import io.t11.clientConnectivity.service.OrderService;
 import io.t11.clientConnectivity.service.PortfolioService;
 import io.t11.clientConnectivity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,22 +24,32 @@ public class PortfolioController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/create/{userId}")
-    public Portfolio addPortfolio(@RequestBody Stock stock,@PathVariable Long userId){
-        User user = userService.getUserById(userId).get();
-        return portfolioService.addPortfolio(user,stock.getTicker());
+    @Autowired
+    OrderService orderService;
+
+    @PostMapping("/create")
+    public Portfolio addPortfolio(@RequestBody Order order){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final User user = userService.findUserByEmail(userDetails.getUsername());
+
+        return portfolioService.addPortfolio(user,order.getProduct());
     }
 
-    @PostMapping("/add/{userId}")
-    public ResponseEntity<List<Portfolio>> addStockToPortfolio(@RequestBody Stock stock, @PathVariable Long userId){
-        User user = userService.getUserById(userId).get();
-        List<Portfolio> portfolios = portfolioService.addStockToPortfolio(stock,user);
+    @PostMapping("/add/{orderId}")
+    public ResponseEntity<List<Portfolio>> addStockToPortfolio(@PathVariable String orderId){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final User user = userService.findUserByEmail(userDetails.getUsername());
+
+        Order order = orderService.getOrder(orderId);
+        List<Portfolio> portfolios = portfolioService.addStockToPortfolio(order,user);
         return ResponseEntity.ok().body(portfolios);
     }
 
     @DeleteMapping("/close")
     public void closePorfolio(@PathVariable  String ticker){
-        final User user = userService.findUserByEmail(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmailAddress());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final User user = userService.findUserByEmail(userDetails.getUsername());
+
         portfolioService.closePortfolio(ticker,user);
     }
 }

@@ -1,14 +1,12 @@
 package io.t11.clientConnectivity.service;
 
 import io.t11.clientConnectivity.dao.PortfolioRepository;
-import io.t11.clientConnectivity.dto.PortfolioDto;
+import io.t11.clientConnectivity.model.Order;
 import io.t11.clientConnectivity.model.Portfolio;
-import io.t11.clientConnectivity.model.Stock;
 import io.t11.clientConnectivity.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,12 +33,15 @@ public class PortfolioService implements IPortfolioService{
     }
 
     @Override
-    public List<Portfolio> addStockToPortfolio(Stock stock,User user) {
+    public List<Portfolio> addStockToPortfolio(Order order, User user) {
         List<Portfolio> portfolios = portfolioRepository.findAllByUser(user);
         for (Portfolio portfolio: portfolios) {
-            if(portfolio.getTicker().equals(stock.getTicker())){
-                portfolio.setStockQuantity(stock.getCummlativeQuantity());
+            if(portfolio.getTicker().equals(order.getProduct())){
+                portfolio.setStockQuantity(order.getCumulativeQuantity());
                 portfolioRepository.save(portfolio);
+            }
+            else{
+                addPortfolio(user,portfolio.getTicker());
             }
         }
         return portfolios;

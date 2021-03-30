@@ -42,6 +42,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
+
     @Override
     public void configure(final WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/resources/**");
@@ -49,7 +50,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()
+        httpSecurity.cors().and().csrf().disable()
                 .authorizeRequests().antMatchers("/users/register","/authenticate").permitAll().
                 anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)

@@ -2,7 +2,6 @@ package io.t11.clientConnectivity.controller;
 
 import io.t11.clientConnectivity.dto.OrderDto;
 import io.t11.clientConnectivity.model.Order;
-import io.t11.clientConnectivity.model.Stock;
 import io.t11.clientConnectivity.model.User;
 import io.t11.clientConnectivity.service.IOrderService;
 import io.t11.clientConnectivity.service.OrderClient;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -44,8 +44,11 @@ public class OrderController {
     @PostMapping("/orders/create")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ValidateOrderResponse> createNewOrder(@RequestBody OrderDto orderDto){
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final User user = userService.findUserByEmail(userDetails.getUsername());
+
         logger.info("saving new order");
-        final User user = userService.findUserByEmail(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmailAddress());
         Order order = orderService.createNewOrder(orderDto,user);
 
         logger.info("sending order to order_validation_service for validation ");
@@ -55,7 +58,9 @@ public class OrderController {
 
     @GetMapping("/orders")
     public List<Order> getAllOrders(){
-        final User user = userService.findUserByEmail(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmailAddress());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final User user = userService.findUserByEmail(userDetails.getUsername());
+
         return orderService.getAllOrders(user);
     }
 
@@ -65,20 +70,22 @@ public class OrderController {
     }
 
     @GetMapping("/user/stocks")
-    public List<Stock> getAllOpenOrdersForUser(){
-        final User user = userService.findUserByEmail(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmailAddress());
+    public List<Order> getAllOpenOrdersForUser(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final User user = userService.findUserByEmail(userDetails.getUsername());
+
         return orderService.getAllOpenTradesForUser(user);
     }
 
-    @GetMapping("/stock/status/{uid}")
-    public Stock trackStockStatus(String uid){
-       return orderService.trackStockStatus(orderService.getStock(uid));
+    @GetMapping("/orders/status/{uid}")
+    public Order trackStockStatus(String uid){
+       return orderService.trackOrderStatus(orderService.getOrder(uid));
     }
 
-    @DeleteMapping("/stock/cancel/{uniqueId}")
+    @DeleteMapping("/orders/cancel/{uniqueId}")
     public void cancelOrder(String uniqueId){
-        Stock stock = orderService.getStock(uniqueId);
-        orderService.cancelOrder(stock);
+        Order order = orderService.getOrder(uniqueId);
+        orderService.cancelOrder(order);
     }
 
 }

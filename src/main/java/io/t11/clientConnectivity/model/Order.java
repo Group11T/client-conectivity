@@ -20,6 +20,12 @@ public class Order {
 
     private String validationStatus;
 
+    private String uniqueId;
+
+    private int cumulativeQuantity;
+
+    private String exchangeTradedOn;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -72,12 +78,36 @@ public class Order {
         this.validationStatus = validationStatus;
     }
 
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
+    public int getCumulativeQuantity() {
+        return cumulativeQuantity;
+    }
+
+    public void setCumulativeQuantity(int cumulativeQuantity) {
+        this.cumulativeQuantity = cumulativeQuantity;
+    }
+
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getExchangeTradedOn() {
+        return exchangeTradedOn;
+    }
+
+    public void setExchangeTradedOn(String exchangeTradedOn) {
+        this.exchangeTradedOn = exchangeTradedOn;
     }
 
     @Override
@@ -89,6 +119,9 @@ public class Order {
                 ", price=" + price +
                 ", side='" + side + '\'' +
                 ", validationStatus='" + validationStatus + '\'' +
+                ", uniqueId='" + uniqueId + '\'' +
+                ", cumulativeQuantity=" + cumulativeQuantity +
+                ", exchangeTradedOn='" + exchangeTradedOn + '\'' +
                 ", user=" + user +
                 '}';
     }
