@@ -35,8 +35,8 @@ public class PortfolioController {
         return portfolioService.addPortfolio(user,order.getProduct());
     }
 
-    @PostMapping("/add/{orderId}")
-    public ResponseEntity<List<Portfolio>> addStockToPortfolio(@PathVariable String orderId){
+    @PostMapping("/add/")
+    public ResponseEntity<List<Portfolio>> addStockToPortfolio(@RequestParam String orderId){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final User user = userService.findUserByEmail(userDetails.getUsername());
 
@@ -46,7 +46,7 @@ public class PortfolioController {
     }
 
     @DeleteMapping("/close")
-    public void closePorfolio(@PathVariable  String ticker){
+    public void closePorfolio(@RequestParam  String ticker){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final User user = userService.findUserByEmail(userDetails.getUsername());
 

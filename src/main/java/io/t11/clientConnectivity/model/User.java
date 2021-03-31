@@ -19,7 +19,7 @@ public class User {
     private double balance;
 
     public User() {
-        this.balance = 100;
+        this.balance = 10000;
     }
 
     public User(Long id, String firstName, String lastName, String password, String emailAddress, String DOB, double balance) {
@@ -30,7 +30,7 @@ public class User {
         this.emailAddress = emailAddress;
         this.DOB = DOB;
         this.balance = balance;
-        this.balance = 100;
+        this.balance = 10000;
     }
 
     public Long getId() {

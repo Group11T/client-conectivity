@@ -18,4 +18,6 @@ public interface IUserService {
     Optional<User> getUserById(Long id);
 
     List<User> getAllUsers();
+
+    User subtractFromUserBalance(User user,double money);
 }

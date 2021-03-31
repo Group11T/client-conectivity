@@ -43,17 +43,27 @@ public class OrderController {
 
     @PostMapping("/orders/create")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ValidateOrderResponse> createNewOrder(@RequestBody OrderDto orderDto){
+    public ResponseEntity<String> createNewOrder(@RequestBody OrderDto orderDto){
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final User user = userService.findUserByEmail(userDetails.getUsername());
+        double totalAmount = orderDto.getPrice() * orderDto.getQuantity();
+        if(user.getBalance() >= totalAmount){
+            System.out.println(totalAmount);
+            logger.info("saving new order");
+            Order order = orderService.createNewOrder(orderDto,user);
 
-        logger.info("saving new order");
-        Order order = orderService.createNewOrder(orderDto,user);
-
-        logger.info("sending order to order_validation_service for validation ");
-        ValidateOrderResponse validateOrderResponse=orderClient.validateNewOrder(order,user);
-        return ResponseEntity.ok().body(validateOrderResponse);
+            logger.info("sending order to order_validation_service for validation ");
+            ValidateOrderResponse validateOrderResponse = orderClient.validateNewOrder(order,user);
+            if(validateOrderResponse.getStatus().equals("Order successful")){
+                double amount = orderDto.getPrice() * orderDto.getQuantity();
+                userService.subtractFromUserBalance(user,amount);
+            };
+            return ResponseEntity.ok().body(validateOrderResponse.getStatus());
+        }
+        else{
+            return ResponseEntity.badRequest().body("Your balance is insufficient to make a trade");
+        }
     }
 
     @GetMapping("/orders")
@@ -69,7 +79,7 @@ public class OrderController {
         return orderService.getAllOpenTradesOnMarket();
     }
 
-    @GetMapping("/user/stocks")
+    @GetMapping("/orders/user")
     public List<Order> getAllOpenOrdersForUser(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final User user = userService.findUserByEmail(userDetails.getUsername());
@@ -77,13 +87,13 @@ public class OrderController {
         return orderService.getAllOpenTradesForUser(user);
     }
 
-    @GetMapping("/orders/status/{uid}")
-    public Order trackStockStatus(String uid){
+    @GetMapping("/orders/status/")
+    public Order trackStockStatus(@RequestParam String uid){
        return orderService.trackOrderStatus(orderService.getOrder(uid));
     }
 
-    @DeleteMapping("/orders/cancel/{uniqueId}")
-    public void cancelOrder(String uniqueId){
+    @DeleteMapping("/orders/cancel/")
+    public void cancelOrder(@RequestParam String uniqueId){
         Order order = orderService.getOrder(uniqueId);
         orderService.cancelOrder(order);
     }

@@ -1,10 +1,8 @@
 package io.t11.clientConnectivity.service;
 
-import io.t11.clientConnectivity.dao.PortfolioRepository;
 import io.t11.clientConnectivity.dao.UserRepository;
 import io.t11.clientConnectivity.dto.UserDto;
 import io.t11.clientConnectivity.error.UserAlreadyExistException;
-import io.t11.clientConnectivity.model.Portfolio;
 import io.t11.clientConnectivity.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,6 +52,13 @@ public class UserService implements IUserService {
     @Override
     public List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+    @Override
+    public User subtractFromUserBalance(User user, double amount) {
+        double newBalance = user.getBalance() - amount;
+        user.setBalance(newBalance);
+        return userRepository.save( user );
     }
 
     private boolean emailExists(final String emailAddress) {
