@@ -1,5 +1,6 @@
 package io.t11.clientConnectivity.model;
 
+
 import java.io.Serializable;
 
 
