@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-
+    //@CrossOrigin
     public User registerNewUser(@RequestBody UserDto userDto){
 
        // return user;
