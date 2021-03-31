@@ -1,18 +1,21 @@
 package io.t11.clientConnectivity.controller;
 
 import io.t11.clientConnectivity.dto.UserDto;
-import io.t11.clientConnectivity.model.Portfolio;
 import io.t11.clientConnectivity.model.User;
-
 import io.t11.clientConnectivity.service.IUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
 public class UserController {
+
+    private static Logger logger = LoggerFactory.getLogger((UserController.class));
 
     @Autowired
     private IUserService userService;
@@ -21,28 +24,24 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    //@CrossOrigin
+    @PostMapping("/users/register")
     public User registerNewUser(@RequestBody UserDto userDto){
 
-       // return user;
-        System.out.println(userDto);
-        return userService.createNewUser(userDto);  // so You Know something must be done here
+        logger.info("Registering new user");
+        return userService.createNewUser(userDto);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/users/balance")
+    public double checkUserBalance(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final User user = userService.findUserByEmail(userDetails.getUsername());
+
+        return userService.getUserBalance(user);
+    }
+
+    @GetMapping("/users")
     public List<User> getAllUsers(){
-        return userService.returnAllUsers();
-    }
-
-    @GetMapping("/portfolio/{id}")
-    public Portfolio getUsersPortfolio(@PathVariable Long id){
-        User user = userService.findUserById(id);
-        return userService.getUserPortfolio(user);
-    }
-
-    public String loginUser(){
-        return ""; // so You Know something must be done here
+        return userService.getAllUsers();
     }
 
 }
