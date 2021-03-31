@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 public class JwtResponse implements Serializable {
 
-
     private final String jwt;
 
     public JwtResponse(String jwt) {
