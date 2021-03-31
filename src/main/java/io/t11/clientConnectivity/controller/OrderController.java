@@ -48,8 +48,9 @@ public class OrderController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final User user = userService.findUserByEmail(userDetails.getUsername());
         double totalAmount = orderDto.getPrice() * orderDto.getQuantity();
+        System.out.println(totalAmount);
+        System.out.println(user.getBalance());
         if(user.getBalance() >= totalAmount){
-            System.out.println(totalAmount);
             logger.info("saving new order");
             Order order = orderService.createNewOrder(orderDto,user);
 
