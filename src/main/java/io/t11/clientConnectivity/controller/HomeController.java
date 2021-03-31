@@ -30,7 +30,7 @@ public class HomeController {
 
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getEmailAddress(), authenticationRequest.getPassword())
             );
         }
         catch (BadCredentialsException e) {
@@ -38,7 +38,7 @@ public class HomeController {
         }
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+                .loadUserByUsername(authenticationRequest.getEmailAddress());
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
